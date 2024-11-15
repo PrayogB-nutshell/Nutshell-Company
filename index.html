@@ -1,0 +1,190 @@
+<html>
+<head>
+  <base href="." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutshell - Project Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-container {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .nutshell-logo {
+      animation: crack 3s ease-in-out infinite;
+    }
+
+    @keyframes crack {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .projects-container {
+      max-width: 800px;
+      width: 90%;
+      margin: 2rem auto;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      background: linear-gradient(45deg, #ff6b6b, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Loading Animation Styles */
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .loading-container {
+      width: 150px;
+      height: 150px;
+    }
+
+    .cloud {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-dasharray: 100;
+      animation: moveCloud 6s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
+    .loading-text {
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      animation: pulse 6.5s ease-in-out infinite;
+    }
+
+    @keyframes moveCloud {
+      0% { stroke-dashoffset: 300; transform: translateX(-15px); }
+      50% { stroke-dashoffset: 0; transform: translateX(15px); }
+      100% { stroke-dashoffset: -300; transform: translateX(-15px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading Animation -->
+<div class="loading" id="loading">
+  <div class="loading-container">
+    <svg viewBox="0 0 100 100" class="cloud">
+      <path d="M25,60 Q30,45 45,45 Q55,45 60,55 Q70,45 80,50 Q90,55 85,65 Q95,65 90,75 Q85,80 75,75 Q65,85 50,80 Q35,85 30,75 Q20,75 25,60" />
+    </svg>
+    <div class="loading-text">LOADING</div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="logo-container">
+  <svg class="nutshell-logo" width="100" height="100" viewBox="0 0 100 100">
+    <path d="M50 10 C 20 10, 10 40, 10 50 C 10 60, 20 90, 50 90 C 80 90, 90 60, 90 50 C 90 40, 80 10, 50 10" 
+          fill="#ff6b6b" stroke="#feca57" stroke-width="2">
+    </path>
+    <path d="M30 40 Q 50 60, 70 40" stroke="#fff" stroke-width="2" fill="none"></path>
+  </svg>
+  <h1>Nutshell Projects</h1>
+</div>
+
+<div class="projects-container" id="projects"></div>
+
+<script>
+const username = 'PrayogB-nutshell'; // Replace with your GitHub username
+
+async function fetchGithubProjects() {
+  const loadingElement = document.getElementById('loading');
+  loadingElement.style.display = 'flex'; // Ensure the loading animation is visible
+
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}/repos`);
+    const projects = await response.json();
+    
+    const projectsContainer = document.getElementById('projects');
+    projectsContainer.innerHTML = '';
+
+    projects.forEach(project => {
+      const projectCard = document.createElement('div');
+      projectCard.className = 'project-card';
+      projectCard.innerHTML = `
+        <h3>${project.name}</h3>
+        <p>${project.description || 'No description available'}</p>
+      `;
+      
+      projectCard.addEventListener('click', () => {
+        window.location.href = project.html_url;
+      });
+      
+      projectsContainer.appendChild(projectCard);
+    });
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+  } finally {
+    // Force a minimum loading time of 4 seconds before hiding the loading screen
+    setTimeout(() => {
+      document.getElementById('loading').style.display = 'none'; // Hide the loading screen
+    }, 4000); // 4 seconds
+  }
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', fetchGithubProjects);
+</script>
+
+
+</body>
+</html>
