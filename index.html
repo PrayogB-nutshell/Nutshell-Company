@@ -3,7 +3,7 @@
   <base href="." />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nutshell - Project Portfolio</title>
+  <title>The Nutshell Company</title>
   <style>
     * {
       margin: 0;
@@ -165,9 +165,9 @@ async function fetchGithubProjects() {
         <p>${project.description || 'No description available'}</p>
       `;
       
-      projectCard.addEventListener('click', () => {
-        window.location.href = project.html_url;
-      });
+projectCard.addEventListener('click', () => {
+  window.open(project.html_url, '_blank');
+});
       
       projectsContainer.appendChild(projectCard);
     });
