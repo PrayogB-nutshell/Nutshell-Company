@@ -14,6 +14,6 @@ Inspired by *Kurzgesagt – In a Nutshell* Youtube Chanel (Love You!).
 What the hell is a license?
 
 ## Contributions
-I have contributed to doing nothing. 
+I have contributed on doing nothing. 
 
 Spread the virus of doing nothing, everybody!
