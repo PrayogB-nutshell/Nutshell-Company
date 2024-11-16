@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <base href="." />
@@ -151,6 +152,22 @@
       color: #fff;
     }
 
+    /* Footer */
+    .footer {
+      width: 100%;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem 0;
+      margin-top: auto;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .footer a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -184,8 +201,13 @@
 
 <div class="projects-container" id="projects"></div>
 
+<!-- Footer -->
+<footer class="footer">
+  Nutshell Company 2024 By <a href="https://github.com/PrayogB-nutshell">Prayog</a>
+</footer>
+
 <script>
-const username = 'PrayogB-nutshell'; // Replace with your GitHub username
+const username = 'PrayogB-nutshell'; 
 
 async function fetchGithubProjects() {
   const loadingElement = document.getElementById('loading');
@@ -220,9 +242,8 @@ async function fetchGithubProjects() {
   } catch (error) {
     console.error('Error fetching projects:', error);
   } finally {
-    // Force a minimum loading time of 4 seconds before hiding the loading screen
     setTimeout(() => {
-      document.getElementById('loading').style.display = 'none'; // Hide the loading screen
+      document.getElementById('loading').style.display = 'none';
     }, 4000); // 4 seconds
   }
 }
