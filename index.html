@@ -40,6 +40,13 @@
       max-width: 800px;
       width: 90%;
       margin: 2rem auto;
+      opacity: 0; /* Initially hidden for fade-in effect */
+      animation: fadeIn 1.5s ease-in-out forwards; /* Fade-in effect */
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
 
     .project-card {
@@ -49,6 +56,7 @@
       margin: 1rem 0;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
+      position: relative;
     }
 
     .project-card:hover {
@@ -60,7 +68,7 @@
       font-size: 2.5rem;
       margin-bottom: 1rem;
       text-align: center;
-      background: linear-gradient(45deg, #ff6b6b, #feca57);
+      background: linear-gradient(90deg, hsla(333, 100%, 53%, 1) 0%, hsla(33, 94%, 57%, 1) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -116,6 +124,33 @@
       0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
     }
+
+    /* Gradient Language Badge - Positioned at Bottom Left */
+    .language-badge {
+      background: linear-gradient(90deg, hsla(333, 100%, 53%, 1) 0%, hsla(33, 94%, 57%, 1) 100%);
+      color: white;
+      padding: 0.2rem 0.4rem;
+      border-radius: 5px;
+      font-size: 0.8rem; /* Smaller font size */
+      position: absolute;
+      bottom: 10px; /* Positioned at the bottom */
+      left: 10px; /* Positioned at the left */
+      font-weight: bold;
+      letter-spacing: 0.8px;
+    }
+
+    .project-description {
+      margin: 1rem 0;
+      font-size: 1rem;
+      color: #ddd;
+    }
+
+    .project-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
   </style>
 </head>
 <body>
@@ -134,9 +169,15 @@
 <div class="logo-container">
   <svg class="nutshell-logo" width="100" height="100" viewBox="0 0 100 100">
     <path d="M50 10 C 20 10, 10 40, 10 50 C 10 60, 20 90, 50 90 C 80 90, 90 60, 90 50 C 90 40, 80 10, 50 10" 
-          fill="#ff6b6b" stroke="#feca57" stroke-width="2">
+          fill="url(#gradient)" stroke="#feca57" stroke-width="2">
     </path>
     <path d="M30 40 Q 50 60, 70 40" stroke="#fff" stroke-width="2" fill="none"></path>
+    <defs>
+      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color: hsla(333, 100%, 53%, 1); stop-opacity: 1" />
+        <stop offset="100%" style="stop-color: hsla(33, 94%, 57%, 1); stop-opacity: 1" />
+      </linearGradient>
+    </defs>
   </svg>
   <h1>Nutshell Projects</h1>
 </div>
@@ -160,14 +201,19 @@ async function fetchGithubProjects() {
     projects.forEach(project => {
       const projectCard = document.createElement('div');
       projectCard.className = 'project-card';
+
+      // Add programming language if available
+      const languageBadge = project.language ? `<div class="language-badge">${project.language}</div>` : '';
+
       projectCard.innerHTML = `
-        <h3>${project.name}</h3>
-        <p>${project.description || 'No description available'}</p>
+        <div class="project-name">${project.name}</div>
+        <div class="project-description">${project.description || 'No description available'}</div>
+        ${languageBadge}
       `;
       
-projectCard.addEventListener('click', () => {
-  window.open(project.html_url, '_blank');
-});
+      projectCard.addEventListener('click', () => {
+        window.open(project.html_url, '_blank');
+      });
       
       projectsContainer.appendChild(projectCard);
     });
@@ -184,7 +230,6 @@ projectCard.addEventListener('click', () => {
 // Initialize the page
 document.addEventListener('DOMContentLoaded', fetchGithubProjects);
 </script>
-
 
 </body>
 </html>
