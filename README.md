@@ -2,7 +2,7 @@
 
 This is a page created by Nutshell Company, made for no particular reason. Lol.
 
-## Head Leader
+## Founder
 - **Prayog Bhattarai**
 
 ## About
